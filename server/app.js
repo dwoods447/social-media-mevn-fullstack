@@ -54,12 +54,13 @@ const post  = require('./routes/post.routes');
 app.use(auth);
 app.use('/users', user);
 app.use('/posts', post)
+app.set('port', process.env.PORT || port);
 mongoose.connect(config.db.connectString, { useNewUrlParser: true, useUnifiedTopology: true })
 .then((result)=>{              
-    const server = app.listen(port, host, () => {
+    const server = app.listen(port, () => {
             
                 console.log("MonGoose connection created!" + result);
-                console.log(`Server started on ${host}:${port}`);    
+                console.log(`Server started on port:${port}`);    
      });
 
      const io  = require('./socketio').init(server)
