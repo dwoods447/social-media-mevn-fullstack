@@ -9,7 +9,7 @@
     "build-project": "npm run build-client && npm run install-server",
     "build-client": "cd ./client && npm install && npm run build",
     "install-server": "cd ./server && npm install",
-    "start": "cd ./client && npm run serve && cd ./server && node server/src/app.js"
+    "start": "cd ./client && npm run serve && cd ./server && node app.js"
   },
   "author": "Demaria Woods",
   "license": "ISC"
