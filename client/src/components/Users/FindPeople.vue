@@ -67,8 +67,7 @@ import FollowButton from '@/components/Profile/FollowButton'
          filters:{
             imageSrcFilter(src){
                 if(src.images){
-                    console.log(`img src=${src}`);
-                    //return require(`../../assets/static/random-users/uploads/${src}`);
+  
                     return require('../../assets/static/random-users/uploads/'+src.images.imagePaths[0].path)
                 } else {
                   return 'http://via.placeholder.com/230x230';
@@ -76,8 +75,6 @@ import FollowButton from '@/components/Profile/FollowButton'
             },
             maleImageSrcFilter(src){
                 if(src.images){
-                    console.log(`img src=${src}`);
-                    //return require(`../../assets/static/random-users/men/${src}`)
                     return require('../../assets/static/random-users/men/'+src.images.imagePaths[0].path);
                 }else {
                     return 'http://via.placeholder.com/230x230';
@@ -85,7 +82,6 @@ import FollowButton from '@/components/Profile/FollowButton'
             },
             femaleImageSrcFilter(src){
                 if(src.images){
-                    console.log(`img src=${src}`);
                   return require('../../assets/static/random-users/women/'+src.images.imagePaths[0].path);
                 }else {
                     return 'http://via.placeholder.com/230x230';

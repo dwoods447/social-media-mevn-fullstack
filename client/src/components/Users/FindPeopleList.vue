@@ -30,9 +30,7 @@
         },
         methods:{
            async getUsersNotFollowed(){
-               console.log(`Getting not followed...`);
                const usersNotFollowed = await this.$store.dispatch('getAllUsersNotFollowedAction');
-               console.log(`Users not followed: ${usersNotFollowed}`);
                this.users = usersNotFollowed.users;
            }
         },

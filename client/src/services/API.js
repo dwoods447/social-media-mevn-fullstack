@@ -7,7 +7,7 @@ if(process.env.NODE_ENV !== 'production'){
  
  } else {
    api = axios.create({
-     baseURL: 'http://social-media-app-mevn.herokuapp.com'
+     baseURL: 'https://social-media-app-mevn.herokuapp.com'
    })
  }
 

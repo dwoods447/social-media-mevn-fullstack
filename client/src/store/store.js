@@ -95,7 +95,6 @@ const store = new Vuex.Store({
 
 
    tryAutoLoginAction(context){
-      console.log(`Trying auto login.......`);
       const token = localStorage.getItem('token');
       const user = localStorage.getItem('user');
       
@@ -108,8 +107,7 @@ const store = new Vuex.Store({
       if(now <= expirationDate){
         return;
       }
-      console.log(`User is authneticated.......`);
-      console.log(`Resetting vuex state.......`);
+
       context.commit('setLoggedInUserIdMutation', user);
       context.commit('setAuthTokenMutation', token);
    },
@@ -133,11 +131,11 @@ const store = new Vuex.Store({
         tokenExpr = JSON.stringify(response.data.tokenExpiresIn);
         user = JSON.stringify(response.data.user);
         const now  = new Date().getTime();
-        console.log(`Token Expiration is a: ${typeof response.data.tokenExpiresIn}`);
-        console.log(`Now ${now}`)
+        // console.log(`Token Expiration is a: ${typeof response.data.tokenExpiresIn}`);
+        // console.log(`Now ${now}`)
         const expirationDate =  ((now + response.data.tokenExpiresIn) * 1000);
-        console.log(`${(now + response.data.tokenExpiresIn * 1000)}`);
-        console.log(`Expiration which is now.getTime() + tokenExpr * 1000 is: ${JSON.stringify(expirationDate)}`);
+        // console.log(`${(now + response.data.tokenExpiresIn * 1000)}`);
+        // console.log(`Expiration which is now.getTime() + tokenExpr * 1000 is: ${JSON.stringify(expirationDate)}`);
         tokenExpr = expirationDate;
         localStorage.setItem('token', token);
         localStorage.setItem('tokenExpiration', tokenExpr);
@@ -145,8 +143,8 @@ const store = new Vuex.Store({
         context.commit('setAuthTokenMutation', token);
         context.commit('setLoggedInUserIdMutation', response.data.user);
         context.dispatch('setLogOutTimerAction', tokenExpr);
-        console.log(`Auth Token: ${JSON.stringify(token)}`);
-        console.log(`User: ${JSON.stringify(user)}`);
+        // console.log(`Auth Token: ${JSON.stringify(token)}`);
+        // console.log(`User: ${JSON.stringify(user)}`);
        
       }
             return response;
@@ -166,7 +164,7 @@ const store = new Vuex.Store({
     },
 
     async getAllUsersFollowedAction(context){
-        console.log('gEtting users followed in store...');
+        // console.log('gEtting users followed in store...');
         context.dispatch('setAuthHeaderTokenAction', context.state.token);
         const allUsersFollowed = (await UserService.getAllUsersFollowed()).data;
        
@@ -179,10 +177,10 @@ const store = new Vuex.Store({
     },
 
     async getAllUsersNotFollowedAction(context){
-      console.log('gEtting users not followed in store...');
+      // console.log('gEtting users not followed in store...');
       context.dispatch('setAuthHeaderTokenAction', context.state.token);
       const allUsersFollowed = (await UserService.getAllUsersNotFollowed()).data;
-      console.log(`Users not followed retured ${JSON.stringify(allUsersFollowed, null, 2)}`)
+      // console.log(`Users not followed retured ${JSON.stringify(allUsersFollowed, null, 2)}`)
       if(!allUsersFollowed){
         return;
       }
@@ -202,12 +200,12 @@ const store = new Vuex.Store({
 
     async editUserInfoAction(context, userData){
       context.dispatch('setAuthHeaderTokenAction', context.state.token);
-      console.log(`Edit Profile Data in sotre: ${JSON.stringify(userData)}`)
+      // console.log(`Edit Profile Data in sotre: ${JSON.stringify(userData)}`)
       const editResponse = (await UserService.editUserInfo(userData)).data;
       if(!editResponse){
         return;
       }
-      console.log(`editResponse: ${JSON.stringify(editResponse)}`)
+      // console.log(`editResponse: ${JSON.stringify(editResponse)}`)
       context.commit('setLoggedInUserIdMutation', editResponse.user);
       localStorage.removeItem('user');
       localStorage.setItem('user', editResponse.user);
@@ -243,7 +241,7 @@ const store = new Vuex.Store({
     },
 
     async addLikeToPostAction(context, postInfo){
-      console.log('Initiating Api call to add new like post')
+      // console.log('Initiating Api call to add new like post')
       //console.log(`Setting token in store ${JSON.stringify(context.state.token)}`)
        context.dispatch('setAuthHeaderTokenAction', context.state.token);
        const likeResponse = await PostService.addLikeToPost(postInfo);
@@ -254,7 +252,7 @@ const store = new Vuex.Store({
     },
 
     async deletePostAction(context, postInfo){
-      console.log('Initiating Api call to delete post')
+      // console.log('Initiating Api call to delete post')
       //console.log(`Setting token in store ${JSON.stringify(context.state.token)}`)
        context.dispatch('setAuthHeaderTokenAction', context.state.token);
        const deleteResponse = await PostService.deletePost(postInfo);
@@ -266,7 +264,7 @@ const store = new Vuex.Store({
 
 
     async deleteCommentAction(context, postInfo){
-      console.log('Initiating Api call to delete comment')
+      // console.log('Initiating Api call to delete comment')
       context.dispatch('setAuthHeaderTokenAction', context.state.token);
       const deleteResponse = await PostService.deleteComment(postInfo);
       if(!deleteResponse){
@@ -276,8 +274,8 @@ const store = new Vuex.Store({
     },
 
     async loadUserProfileAction(context, userID){
-      console.log('Initiating Api call to load new user profile');
-      console.log(`Userid re've in store ${userID.userId}`);
+      // console.log('Initiating Api call to load new user profile');
+      // console.log(`Userid re've in store ${userID.userId}`);
       const userProfile = (await UserService.loadUserProfile(userID)).data;
       if(!userProfile){
         return;
@@ -286,7 +284,7 @@ const store = new Vuex.Store({
     },
 
     async addCommentToPost(context, postInfo){
-      console.log('Initiating Api call to add new comment to post')
+      // console.log('Initiating Api call to add new comment to post')
      // console.log(`Setting token in store ${JSON.stringify(context.state.token)}`)
        context.dispatch('setAuthHeaderTokenAction', context.state.token);
        const commentResponse = await PostService.addCommentToPost(postInfo);

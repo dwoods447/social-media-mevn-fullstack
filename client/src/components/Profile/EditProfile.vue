@@ -3,14 +3,14 @@
                 <div class="flex-container">
                       <div v-if="isGeneratedUser === 'true'" >
                           <div v-if="getGender === 'male'">
-                                Main Image: <img :src="fullImageSrc|maleImageSrcFilter" aspect-ratio="1">
+                                Main Image: <img :src="fullImageSrc|maleImageSrcFilter" style="width: 150px; height: 150px; border-radius: 50%;"  aspect-ratio="1">
                           </div>
                            <div v-if="getGender === 'female'">
-                                 Main Image: <img :src="fullImageSrc|femaleImageSrcFilter" aspect-ratio="1" >
+                                 Main Image: <img :src="fullImageSrc|femaleImageSrcFilter" style="width: 150px; height: 150px; border-radius: 50%;" aspect-ratio="1" >
                           </div>
                       </div>
                       <div v-else>
-                            Main Image: <img :src="fullImageSrc|imageSrcFilter" aspect-ratio="1">
+                            Main Image:  <img :src="this.postPhotoBaseURL+'images/'+fullImageSrc.images.imagePaths[0].path" style="width: 150px; height: 150px; border-radius: 50%;" aspect-ratio="1">
                       </div>
                       <div>
                         <div style="max-width: 100%; height: auto;">
@@ -82,12 +82,14 @@
 </template>
 
 <script>
+import api from '../../services/API'
     export default {
         components: {
 
         },
         created(){
             console.log(`User Generated value: ${this.$store.getters.isGeneratedUser}`);
+            this.postPhotoBaseURL = api.defaults.baseURL;
         },
         data(){
             return {
@@ -101,8 +103,10 @@
                 username: '',
                 email: '',
                 about: '',
+                password: '',
                 confirmPassword: '',
                 image: null,
+                postPhotoBaseURL: '',
 
                
                 
