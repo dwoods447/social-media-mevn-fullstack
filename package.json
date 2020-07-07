@@ -2,7 +2,6 @@
   "name": "social-media-app",
   "version": "1.0.0",
   "description": "Connect with friends and the world around you on InThMix",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "heroku-postbuild": "npm run build-client && npm run install-server",
@@ -11,6 +10,13 @@
     "install-server": "cd ./server && npm install",
     "start": "cd ./client && npm run serve && cd ./server && node app.js"
   },
+  "engines": {
+    "node": ">= 6.0.0"
+  },
   "author": "Demaria Woods",
-  "license": "ISC"
+  "license": "ISC",
+  "cacheDirectories": [
+    "client/node_modules",
+    "server/node_modules"
+  ]
 }
