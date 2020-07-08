@@ -38,6 +38,7 @@
 
 <script>
 import FollowButton from '@/components/Profile/FollowButton'
+import api from '../../services/API'
     export default {
         props:{
             user: {

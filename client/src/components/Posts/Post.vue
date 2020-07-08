@@ -11,7 +11,7 @@
                         </div>
                     </div>
                      <div v-else>
-                           <img :src="this.postPhotoBaseURL+'images/'+postCreatorImage" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;" >
+                           <img :src="this.postPhotoBaseURL+'/images/'+postCreatorImage" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;" >
                     </div>
               
                 <h2 style="font-size: 1.1em; margin-right: 20px;">&nbsp;&nbsp;{{ postedBy.username }}<br/><span style="font-size: small;">{{ created | dateFilter}}</span></h2>
