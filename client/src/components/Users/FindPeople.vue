@@ -8,14 +8,14 @@
       <v-col lg="2">
         <div v-if="user.generatedUser === 'true'">
           <div v-if="user.gender == 'male'">
-               <img :src="user|maleImageSrcFilter" :class="['is-male']" class="find-people-img">
+               <img :src="user|maleImageSrcFilter" :class="['is-male', 'find-people-img']" >
           </div>
            <div v-if="user.gender ==='female'" >
-               <img :src="user|femaleImageSrcFilter" :class="['is-female']" class="find-people-img">
+               <img :src="user|femaleImageSrcFilter" :class="['is-female', 'find-people-img']">
            </div>
         </div>
          <div v-else>
-             <img :src="user|imageSrcFilter" :class="['is-real-user']" class="find-people-img">
+             <img :src="this.postPhotoBaseURL+'/images/'+user.images.imagePaths[0].path" :class="['is-real-user', 'find-people-img']">
          </div>
         </v-col>
        <v-col lg="4" class="user-text-container">
@@ -48,11 +48,11 @@ import FollowButton from '@/components/Profile/FollowButton'
             FollowButton
         },
         created(){
-           // console.log(`Created hook user obj findPeople ${JSON.stringify(this.user)}`)
+            this.postPhotoBaseURL = api.defaults.baseURL;
         },  
         data(){
             return {
-                
+                postPhotoBaseURL: null,
             }
         },
         methods: {

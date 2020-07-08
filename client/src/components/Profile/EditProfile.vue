@@ -10,7 +10,7 @@
                           </div>
                       </div>
                       <div v-else>
-                            Main Image:  <img :src="this.postPhotoBaseURL+'images/'+fullImageSrc.images.imagePaths[0].path" style="width: 150px; height: 150px; border-radius: 50%;" aspect-ratio="1">
+                            Main Image:  <img :src="this.postPhotoBaseURL+'/images/'+fullImageSrc.images.imagePaths[0].path" style="width: 150px; height: 150px; border-radius: 50%;" aspect-ratio="1">
                       </div>
                       <div>
                         <div style="max-width: 100%; height: auto;">

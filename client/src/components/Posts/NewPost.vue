@@ -12,7 +12,7 @@
                      </div>
                  </div>
                 <div v-else :class="['is-not-a-generated-user']">
-                      <img :src="this.postPhotoBaseURL+'images/'+user.images.imagePaths[0].path" style="display: inline-block; width:50px; height: 50px; margin-right: 7px; border-radius: 50%;">&nbsp;<h2 style="display: inline-block;">{{user.username}}</h2> 
+                      <img :src="this.postPhotoBaseURL+'/images/'+user.images.imagePaths[0].path" style="display: inline-block; width:50px; height: 50px; margin-right: 7px; border-radius: 50%;">&nbsp;<h2 style="display: inline-block;">{{user.username}}</h2> 
                  </div>
              </div>
                 <v-spacer></v-spacer>

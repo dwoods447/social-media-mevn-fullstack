@@ -27,7 +27,7 @@
        <v-card-text>
            <div v-if="photo.length > 0 && this.postPhotoBaseURL">
             <div style="max-width: 100%; height: auto;">
-               <img :src="this.postPhotoBaseURL+'images/'+photo[0].path" style="width: 100%;">
+               <img :src="this.postPhotoBaseURL+'/images/'+photo[0].path" style="width: 100%;">
             </div>
            </div>
            {{this.text}}

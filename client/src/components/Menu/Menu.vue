@@ -20,7 +20,7 @@
                      </div>
                  </div>
                  <div v-else :class="['is-not-a-generated-user']">
-                      <img :src="this.postPhotoBaseURL+'images/'+userInfo.images.imagePaths[0].path" style="width:50px; height: 50px; margin-right: 7px; border-radius: 50%;">
+                      <img :src="this.postPhotoBaseURL+'/images/'+userInfo.images.imagePaths[0].path" style="width:50px; height: 50px; margin-right: 7px; border-radius: 50%;">
                   </div>
        </div>
        <v-toolbar-items>
