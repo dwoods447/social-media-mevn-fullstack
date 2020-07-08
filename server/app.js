@@ -10,7 +10,7 @@ const path = require('path')
 const multer = require('multer');
 
 app.use(cors());
-
+app.use(bodyParser.json());
 
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) =>{
@@ -43,10 +43,11 @@ const fileFilter = (req, file, cb) =>{
 }
 
 
-app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'))
-app.use(bodyParser.json());
 app.use('/', express.static(path.join(__dirname, '../../client/dist')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'))
+
+
 
 /*********** Routes **************/
 const auth = require('./routes/authentication.routes');
