@@ -15,7 +15,7 @@
            </div>
         </div>
          <div v-else :class="['comment-border','is-not-a-generated-user']" class="comment-photo-container">
-             <img :src="comment.postedBy.images.imagePaths[0].path|imageSrcFilter" :class="['comment-photo','is-real-user']">
+              <img :src="this.postPhotoBaseURL+'/images/'+comment.postedBy.images.imagePaths[0].path" :class="['comment-photo','is-real-user']">
          </div>
         </v-col>
        <v-col lg="9" class="comment-text-container">
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+   import api from '../../services/API'
     export default {
         props: {
             comment: {
@@ -53,10 +54,12 @@
         created(){
             //console.log(`Printed Comment: ${JSON.stringify(this.comment, null, 2)}`);
              this.setCanDelete(); 
+             this.postPhotoBaseURL = api.defaults.baseURL;
         },
         data(){
             return {
                  canDelete: false,
+                 postPhotoBaseURL: null,
             }
         },
         methods: {
