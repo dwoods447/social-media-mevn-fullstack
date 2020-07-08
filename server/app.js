@@ -57,9 +57,9 @@ app.use(auth);
 app.use('/users', user);
 app.use('/posts', post)
 app.set('port', process.env.PORT || port);
-// app.get('/.*/', function(req, res){
-//     res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-// });
+app.get('*', function(req, res){
+    res.sendFile(path.resolve(__dirname, '/../client/dist/index.html'));
+});
 mongoose.connect(config.db.connectString, { useNewUrlParser: true, useUnifiedTopology: true })
 .then((result)=>{              
     const server = app.listen(port, () => {
