@@ -55,12 +55,25 @@
                             </v-tab>
                             </v-tabs>
                          <v-tabs-items v-model="tab">   
-                            <v-tab-item>
+                            <v-tab-item >
                                 <v-card
                                 color="basil"
                                 flat
                                 >
                                 <v-card-text>{{ user.about }}</v-card-text>
+                                </v-card>
+                            </v-tab-item>
+                             <v-tab-item >
+                                <v-card flat>
+                                <v-card-text>Tab2</v-card-text>
+                                </v-card>
+                            </v-tab-item>
+                             <v-tab-item >
+                                <v-card
+                                color="basil"
+                                flat
+                                >
+                                <v-card-text>Tab3</v-card-text>
                                 </v-card>
                             </v-tab-item>
                         </v-tabs-items>
@@ -102,7 +115,7 @@ import FollowButton from '@/components/Profile/FollowButton'
             },
 
             loadFollwers(){
-                const allMyFollowers = this.$store.dispatch('getAllFollowersAction')
+                //const allMyFollowers = this.$store.dispatch('getAllFollowersAction')
             },
 
             loadPosts(){
