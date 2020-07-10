@@ -124,7 +124,6 @@ import api from '../../services/API'
             },
 
             formSubmit(){
-                this.$store.dispatch('setAuthHeaderTokenAction');
                 const formData = {};
                 let userID;
                 if(this.$store.getters.getUser)
@@ -144,9 +143,6 @@ import api from '../../services/API'
                 }
                 console.log(`Edit Profile Data in component: ${JSON.stringify(formData)}`)
                 this.$store.dispatch('editUserInfoAction', formData);
-                // if(this.imageUrl){
-                //     this.$store.dispatch('uploadUserImageAction', this.imageUrl);
-                // }
                 
             },
 

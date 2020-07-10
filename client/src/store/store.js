@@ -209,7 +209,6 @@ const store = new Vuex.Store({
       context.commit('setLoggedInUserIdMutation', editResponse.user);
       localStorage.removeItem('user');
       localStorage.setItem('user', editResponse.user);
-      
       return 'Account successfuly updated!'
     },
 

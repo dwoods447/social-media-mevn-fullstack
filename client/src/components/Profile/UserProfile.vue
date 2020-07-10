@@ -101,6 +101,14 @@ import FollowButton from '@/components/Profile/FollowButton'
 
             },
 
+            loadFollwers(){
+                const allMyFollowers = this.$store.dispatch('getAllFollowersAction')
+            },
+
+            loadPosts(){
+
+            },
+
             goBackToNewsFeed(){
                 this.$router.push({name: "newsfeed"});
             }
