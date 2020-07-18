@@ -5,7 +5,7 @@
         justify="center"
         no-gutters
         >
-      <v-col lg="2">
+      <v-col lg="3">
         <div v-if="comment.postedBy.generatedUser == 'true'" :class="['comment-border','is-generated-user']">
           <div v-if="comment.postedBy.gender == 'male'" class="comment-photo-container">
                <img :src="comment.postedBy.images.imagePaths[0].path|maleImageSrcFilter" :class="['comment-photo', 'is-male']">
@@ -18,11 +18,11 @@
               <img :src="this.postPhotoBaseURL+'/images/'+comment.postedBy.images.imagePaths[0].path" :class="['comment-photo','is-real-user']">
          </div>
         </v-col>
-       <v-col lg="9" class="comment-text-container">
+       <v-col lg="8" class="comment-text-container">
            <div>
              <p class="comment-text">{{ comment.postedBy.username }}</p>
              <p class="comment-text">{{ comment.text }}</p>
-             <p class="comment-text">{{comment.created}}</p>
+             <p class="comment-text">{{comment.created|dateFilter}}</p>
            </div>
            
       </v-col>
@@ -42,6 +42,7 @@
 
 <script>
    import api from '../../services/API'
+   import moment from 'moment'
     export default {
         props: {
             comment: {
@@ -78,6 +79,11 @@
 
         },
         filters:{
+           dateFilter(date){
+              if(date){
+                return moment(new Date(date), 'MM/DD/YYYY').format('LLLL')
+              }
+            },
             imageSrcFilter(src){
                 if(src){
                     console.log(`${src}`);

@@ -14,7 +14,7 @@
                            <img :src="this.postPhotoBaseURL+'/images/'+postCreatorImage" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;" >
                     </div>
               
-                <h2 style="font-size: 1.1em; margin-right: 20px; color: #fff;"><a @click="viewProfile" href="javascript:void(0);" style="color: #fff;">&nbsp;&nbsp;{{ postedBy.username }}</a><br/><span style="font-size: small;">{{ created | dateFilter}}</span></h2>
+                <h2 style="font-size: 1.1em; margin-right: 20px; color: #fff;"><a @click="viewProfile" href="javascript:void(0);" style="color: #fff;">&nbsp;&nbsp;{{ postedBy.username }}</a><br/><span style="font-size: small;">Posted: {{ created | dateFilter}}</span></h2>
                 <v-spacer></v-spacer>
                 <v-btn text v-if="canDelete === true" :class="[{canDelete: 'show-post-remove-icon'}]" @click="deletePost">
                      <v-icon>delete</v-icon>
@@ -156,7 +156,7 @@ import api from '../../services/API'
         filters: {
             dateFilter(date){
               if(date){
-                return moment(new Date(date), 'MM/DD/YYYY').format('l')
+                return moment(new Date(date), 'MM/DD/YYYY').format('LLLL')
               }
             },
 
