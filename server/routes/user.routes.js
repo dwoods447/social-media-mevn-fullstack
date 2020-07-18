@@ -12,6 +12,10 @@ router.get('/all/users', UsersController.getAllUsers);
 router.get('/find/user/:userId', UsersController.getSingleUser);
 router.get('/get/users/followed', isAuthenticated, UsersController.getAllUsersFollowed);
 router.get('/get/users/notfollowed', isAuthenticated, UsersController.getAllUsersNotFollowed)
+
+router.post('/profile/users/followers', isAuthenticated, UsersController.getAllUserWhoFollowUserProfile);
+router.post('/profile/users/following', isAuthenticated, UsersController.getAllUsersFollowingUserProfile);
+
 router.post('/update/user/:userId/edit', isAuthenticated, UsersController.updateUser);
 router.post('/user/:userId/delete', isAuthenticated, UsersController.deleteUser);
 router.post('/image/upload', isAuthenticated, UsersController.uploadImage);

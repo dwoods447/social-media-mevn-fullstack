@@ -13,4 +13,5 @@ router.post('/delete/:postID/comment/:commentId', isAuthenticated, PostsControll
 router.post('/create/post', isAuthenticated, PostsController.createPost);
 router.post('/add/comment/:postId/post', isAuthenticated, PostsController.addCommentToPost);
 router.post('/add/like/:postId/post', isAuthenticated, PostsController.addLikeToPost);
+router.post('/user/profile/posts', isAuthenticated, PostsController.getUserPostsForProfile);
 module.exports = router;

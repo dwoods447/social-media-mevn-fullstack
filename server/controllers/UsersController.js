@@ -12,15 +12,15 @@ const io = require('../socketio');
 
 module.exports = {
     async getSingleUser(req, res, next){
-        console.log('Finding user on the server');
+       // console.log('Finding user on the server');
         let projection = {password: 0}
         const { userId } = req.body;
-        console.log(`User Id re'vd ${userId}`);
-        console.log(`User Id re'vd in params ${req.params.userId}`);
+       // console.log(`User Id re'vd ${userId}`);
+       // console.log(`User Id re'vd in params ${req.params.userId}`);
         const user = await User.findOne({_id: req.params.userId}, projection)
         .populate('following')
         .populate('followers');
-        console.log(`User returned on the server: ${JSON.stringify(user, null, 2)}`)
+        //console.log(`User returned on the server: ${JSON.stringify(user, null, 2)}`)
         return res.status(200).json({user: user});
     },
     async getAllUsers(req, res, next){
@@ -29,18 +29,55 @@ module.exports = {
         return res.status(200).json({users: allUsers});
     },
 
+    async getAllUserWhoFollowUserProfile(req, res, next){
+       // console.log(`Getting all user not followed on server`);
+        const { userId } = req.body;
+        if(!userId){
+            return res.status(422).json({users: [], message: 'User  id not suppied.'})
+        }
+        const user = await User.findById(userId).populate('followers.users.userId');
+       // console.log(`Followers......................................................... ${JSON.stringify(user, null, 2)}`);
+        const followedUsers = [...user.followers.users];
+        // nonFollowedUsers.push(user._id);
+        const allUsersFollowed = await User.find({ _id: { $in: followedUsers } })
+        //.populate('following.users.userId').populate('followers.users.userId');
+        //console.log(`USER FOLLOWER LIST......................................................................... ${JSON.stringify(allUsersFollowed, null, 2)}`);
+        return res.status(200).json({users: allUsersFollowed});
+    },
+
+    async getAllUsersFollowingUserProfile(req, res, next){
+        //console.log(`Getting all user not followed on server`);
+          const { userId } = req.body;
+        if(!userId){
+            return res.status(422).json({users: [], message: 'User  id not suppied.'})
+        }
+        const user = await User.findById(userId).populate('following.users.userId');
+       // console.log(`Following.............................................................. ${JSON.stringify(user, null, 2)}`);
+        const follwingUsers = [...user.following.users];
+        // nonFollowedUsers.push(user._id);
+        const allUsersFollowing = await User.find({ _id: { $in: follwingUsers } })
+        //.populate('following.users.userId').populate('followers.users.userId');
+        //console.log(`USER FOLLOWING LIST................................................................................. ${JSON.stringify(allUsersFollowing, null, 2)}`);
+        return res.status(200).json({users: allUsersFollowing});
+    },
+
+
+
+
+
+
     async getAllUsersNotFollowed(req, res, next){
-        console.log(`Getting all user not followed on server`);
+      //  console.log(`Getting all user not followed on server`);
         const user = await User.findById(req.userId);
         const nonFollowedUsers = [...user.following.users];
         nonFollowedUsers.push(user._id);
         const allUsersNotFollowed = await User.find({ _id: { $nin: nonFollowedUsers } });
-        console.log(`All users not followed ${JSON.stringify(allUsersNotFollowed )}`);
+      //  console.log(`All users not followed ${JSON.stringify(allUsersNotFollowed )}`);
         return res.status(200).json({users: allUsersNotFollowed});
     },
 
     async getAllUsersFollowed(req, res, next){
-        console.log(`Getting all user followed on server`);
+        //console.log(`Getting all user followed on server`);
         const user = await User.findById(req.userId);
         const followedUsers = [...user.following.users];
         const allUsersFollowed = await User.find({ _id: { $in : followedUsers } });

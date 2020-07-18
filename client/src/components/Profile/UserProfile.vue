@@ -8,7 +8,8 @@
                     no-gutters>
                     <v-row>
                         <v-col cols="4" no-gutters> 
-                           <div v-if="user.generatedUser === 'true'">
+                            <div v-if="user !== {}">
+                              <div v-if="user.generatedUser === 'true'">
                                     <div v-if="user.gender === 'male'" >
                                         <img :src="user|maleImageSrcFilter" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
                                     </div>
@@ -17,9 +18,14 @@
                                     </div>
                                 </div>
                                 <div v-else>
-                                    <img :src="user|imageSrcFilter" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;" >
-                        </div>
-                        
+                                    <div v-if="baseURL">
+                                         <div v-if="user.images">
+                                           <img :src="baseURL+'/images/'+user.images.imagePaths[0].path" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
+
                         </v-col>
                         <v-col cols="8" no-gutters>
                             <h3>{{ user.username}}</h3>
@@ -60,12 +66,33 @@
                                 color="basil"
                                 flat
                                 >
-                                <v-card-text>{{ user.about }}</v-card-text>
+                                
+                                <PostList :posts="posts" style="height: 450px; overflow-y: auto;"></PostList>
                                 </v-card>
                             </v-tab-item>
                              <v-tab-item >
                                 <v-card flat>
-                                <v-card-text>Tab2</v-card-text>
+                                <!-- <v-card-text>Following</v-card-text> -->
+                                <carousel>
+                                    <slide v-for="follower in following" :key="follower._id">
+                                      <div v-if="follower.generatedUser === 'true'">
+                                           <div v-if="follower.gender === 'male'">
+                                               <img :src="follower|maleImageSrcFilter" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
+                                           </div> 
+                                           <div v-if="follower.gender === 'female'">
+                                               <img :src="follower|femaleImageSrcFilter" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
+                                           </div>
+                                      </div> 
+                                      <div v-else>
+                                          <div v-if="baseURL && followers.length > 0">
+                                              <div v-if="follower.images">
+                                                     <img :src="baseURL+'/images/'+follower.images.imagePaths[0].path" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
+                                              </div>
+                                          </div>
+                                      </div> 
+                                      {{  follower.username }}
+                                    </slide>   
+                               </carousel>
                                 </v-card>
                             </v-tab-item>
                              <v-tab-item >
@@ -73,7 +100,25 @@
                                 color="basil"
                                 flat
                                 >
-                                <v-card-text>Tab3</v-card-text>
+                                <!-- <v-card-text>Tab3</v-card-text> -->
+                                <carousel>
+                                    <slide v-for="follower in followers" :key="follower._id">
+                                            <div v-if="follower.generatedUser === 'true'">
+                                                <div v-if="follower.gender === 'male'">
+                                                    <img :src="follower|maleImageSrcFilter" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
+                                                </div> 
+                                                <div v-if="follower.gender === 'female'">
+                                                    <img :src="follower|femaleImageSrcFilter" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
+                                                </div>
+                                            </div> 
+                                            <div v-else>
+                                                <div v-if="baseURL && followers.length > 0">
+                                                    <img :src="baseURL+'/images/'+follower.images.imagePaths[0].path" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
+                                                </div>
+                                            </div> 
+                                          {{  follower.username }}
+                                    </slide>
+                               </carousel>
                                 </v-card>
                             </v-tab-item>
                         </v-tabs-items>
@@ -87,21 +132,32 @@
 
 <script>
 import FollowButton from '@/components/Profile/FollowButton'
+import PostList from '@/components/Posts/PostList'
+import api from '../../services/API'
     export default {
         components: {
-          FollowButton
+          FollowButton,
+          PostList
         },
         created(){
             this.loadPerson();
+            this.loadFollowing();
+            this.loadFollwers();
+            this.loadPosts();
+            this.baseURL = api.defaults.baseURL;
         },
         data(){
             return {
+                 baseURL: '',
                  user: {},   
                  tab: null,
                  items: [
                  'POSTS', 'FOLLOWING', 'FOLLOWERS',
                 ],
                  text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                 followers: [],
+                 following: [],
+                 posts: [],
             }
         },
         methods: {
@@ -114,12 +170,26 @@ import FollowButton from '@/components/Profile/FollowButton'
 
             },
 
-            loadFollwers(){
+            async loadFollwers(){
+                 const userID = {userId: this.$route.query.userId};
                 //const allMyFollowers = this.$store.dispatch('getAllFollowersAction')
+                 console.log(`User Id sent: ${userID.userId}`);
+                const followers = await this.$store.dispatch('loadUsersFollowersAction',userID);
+                this.followers = followers;
+            },
+            async loadFollowing(){
+                 const userID = {userId: this.$route.query.userId};
+                 console.log(`User Id sent: ${userID.userId}`);
+                //const allMyFollowers = this.$store.dispatch('getAllFollowersAction')
+                const following = await this.$store.dispatch('loadUsersFollowingAction', userID);
+                this.following = following;
             },
 
-            loadPosts(){
-
+            async loadPosts(){
+                const userID = {userId: this.$route.query.userId};
+                const posts = await this.$store.dispatch('loadUsersPostsAction', userID);
+                this.posts = posts;
+               
             },
 
             goBackToNewsFeed(){

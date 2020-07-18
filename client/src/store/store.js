@@ -163,6 +163,31 @@ const store = new Vuex.Store({
       return registerResp;
     },
 
+
+    async loadUsersFollowersAction(context, userID){
+      context.dispatch('setAuthHeaderTokenAction', context.state.token);
+      const followers = (await UserService.getAllFollowers(userID)).data;
+      if(!followers){
+        return;
+      }
+      console.log(`Followers in store: ${JSON.stringify(followers, null, 2)}`)
+      return followers.users;
+
+    },
+
+    async loadUsersFollowingAction(context, userID){
+      context.dispatch('setAuthHeaderTokenAction', context.state.token);
+      const followers = (await UserService.getAllFollowing(userID)).data;
+      if(!followers){
+        return;
+      }
+
+      console.log(`Following in store: ${JSON.stringify(followers, null, 2)}`)
+      return followers.users;
+
+    },
+
+
     async getAllUsersFollowedAction(context){
         // console.log('gEtting users followed in store...');
         context.dispatch('setAuthHeaderTokenAction', context.state.token);
@@ -227,6 +252,16 @@ const store = new Vuex.Store({
        context.commit('setAllPostsMutation', posts.posts);
        //console.log(`store posts response${JSON.stringify(posts, null, 2)}`)
        return posts.posts;
+    },
+
+    async loadUsersPostsAction(context, userId){
+      context.dispatch('setAuthHeaderTokenAction', context.state.token);
+      const userPosts = (await PostService.loadUserPostsonProfile(userId)).data;
+      if(!userPosts){
+        return [];
+      }
+      return userPosts.posts;
+
     },
     async createPostAction(context, post){
      // console.log('Initiating Api call to create new post')

@@ -74,6 +74,7 @@
                 video: '',
                 selectedFile: '',
                 previewSrc: '',
+                postPhotoBaseURL: '',
             }
         },
         methods: {
@@ -106,6 +107,7 @@
                  this.text = '';
                  this.photo = '';
                  this.video = '';
+                 this. removeSelectedFile();
               }
             },
              removeSelectedFile(){

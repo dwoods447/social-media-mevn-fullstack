@@ -5,7 +5,8 @@ Vue.config.productionTip = false
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import vuetify from './plugins/vuetify';
 import store from './store/store'
-
+import VueCarousel from 'vue-carousel';
+Vue.use(VueCarousel);
 
 new Vue({
   router,

@@ -4,10 +4,15 @@ export default {
     getAllPosts(){
         return Api.get('/posts/all/posts');
     },
+
+    loadUserPostsonProfile(userId){
+        return Api.post('/posts/user/profile/posts', userId);
+    },
     createPost(postInfo){
         const formData = new FormData();
         formData.append('text', postInfo.text);
         if("image" in postInfo){
+            console.log(`Appending image to post`)
             formData.append('image', postInfo.image, postInfo.image.name);
         }
         return Api.post('/posts/create/post', formData);

@@ -32,6 +32,13 @@ export default {
     getAllUsersNotFollowed(){
       return Api.get('/users/get/users/notfollowed'); 
     },
+
+    getAllFollowers(userID){
+      return Api.post('/users/profile/users/followers', userID); 
+    },
+    getAllFollowing(userID){
+      return Api.post('/users/profile/users/following', userID); 
+    },
    
   
 }

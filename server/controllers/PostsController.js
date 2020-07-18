@@ -21,6 +21,17 @@ module.exports = {
         return res.json({posts: posts});
     },
 
+
+    async getUserPostsForProfile(req, res, next){
+         const { userId } = req.body;
+          const posts = await Post.find({postedBy: mongoose.Types.ObjectId(userId)})
+          .populate('likes')
+          .populate('postedBy')
+          .populate('comments.postedBy')
+          .sort({'created': -1});
+         console.log(`All user's posts on server: ${JSON.stringify(posts, null, 2)}`);
+          return res.json({posts: posts});
+      },
     async createPost(req, res, next){
         console.log(`Creating post on the server...`);
         const { text } = req.body;
@@ -43,8 +54,6 @@ module.exports = {
         .populate('postedBy')
         .populate('comments.postedBy');
          if(req.file){
-                    const error  = new Error('No image provided');
-                    return res.status(422).json({message: error});
                 
                  const imageUrl = req.file.filename;
                  console.log(`Image filname ${imageUrl}`)

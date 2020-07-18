@@ -4,8 +4,8 @@
             justify="center"
             no-gutters
             >
-        <v-col lg="9">
-          <v-card  style="max-width: 95%; margin: 25px auto; ">
+        <v-col lg="8">
+          <v-card  class="post-list">
              <v-toolbar dark color="primary">
                 <h2>News Feed</h2>  
                 <v-spacer></v-spacer>
@@ -21,8 +21,8 @@
           </div>   
         </v-card>
         </v-col>
-         <v-col lg="3">
-            <v-card style="max-width: 94%; margin: 25px auto; ">
+         <v-col lg="4">
+            <v-card class="follow-list">
                  <v-toolbar dark color="primary">
                     <h2>Follow Suggestions</h2>  
                     <v-spacer></v-spacer>
@@ -203,5 +203,28 @@ import FindPeopleList from '../Users/FindPeopleList'
 </script>
 
 <style scoped>
+
+  
+       .post-list{
+        max-width: 90%; 
+        margin: 25px auto;
+    }
+    .follow-list{
+        max-width: 90%; 
+        margin: 25px auto; 
+    }
+
+    @media screen and(max-width: 1920px) {
+
+         .post-list{
+        max-width: 70%; 
+        margin: 25px auto;
+    }
+    .follow-list{
+        max-width: 100%; 
+        margin: 25px auto; 
+    }
+
+}
 
 </style>
