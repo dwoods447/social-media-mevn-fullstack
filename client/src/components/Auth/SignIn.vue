@@ -60,6 +60,7 @@ export default {
       console.log(`Sending...`);
       if(this.username && this.password) {
         let res = (await this.$store.dispatch('login', {username: this.username, password: this.password})).data;
+        res.message
         console.log(`Response: ${JSON.stringify(res)}`);
         if(res.token){
           if(res.user.isProfileComplete === 'true'){

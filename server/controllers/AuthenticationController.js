@@ -22,12 +22,12 @@ module.exports = {
         const userName = await User.findOne({username: username});
         if(userName){
             statusCode = 422;
-            return res.status(422).json({message: 'Username already exists!', statusCode: statusCode});
+            return res.status(200).json({message: 'Username already exists!', statusCode: statusCode});
         }
         const userEmail = await User.findOne({email: email});
         if(userEmail){
             statusCode = 422;
-            return res.status(422).json({message: 'That Email already exists!', statusCode: statusCode});
+            return res.status(200).json({message: 'That email already exists!', statusCode: statusCode});
         }
 
         
@@ -72,18 +72,18 @@ module.exports = {
         }
         
         console.log('Sent Mail');
-        // transporter.sendMail({
-        //     to: email,
-        //     from: 'InTheMixSocialApp',
-        //     subject: 'Welcome to InTheMixSocialApp',
-        //     html: `
-        //     <h1>Welcome, ${newUser.username} to InTheMixSocialApp</h1>
-        //     <div>
-        //       You have successfully registered!
-        //     </div>
+        transporter.sendMail({
+            to: email,
+            from: 'InTheMixSocialApp',
+            subject: 'Welcome to InTheMixSocialApp',
+            html: `
+            <h1>Welcome, ${newUser.username} to InTheMixSocialApp</h1>
+            <div>
+              You have successfully registered!
+            </div>
 
-        //     `
-        // })
+            `
+        })
         statusCode = 200;
         return res.status(statusCode).json({message: 'User succesfully signed up!', user: savedUser, statusCode: statusCode})
     },
@@ -96,7 +96,7 @@ module.exports = {
         const user = await User.findOne({username: username});
         if(!user){
             statusCode = 403;
-            return res.status(403).json({message: 'Invalid username/password',  statusCode: statusCode});
+            return res.status(200).json({message: 'Invalid username/password',  statusCode: statusCode});
         }
         // Unecrypted password
         const passwordMatch = (password === user.password) ? true: false;
@@ -104,7 +104,7 @@ module.exports = {
      //   const passwordMatch = bcrypt.compareSync(password, user.password);
         if(!passwordMatch){
             statusCode = 403;
-            return res.status(403).json({message: 'Invalid username/password'});
+            return res.status(200).json({message: 'Invalid username/password', statusCode: statusCode});
         }
         console.log('Successfully signed in');
 
@@ -115,10 +115,11 @@ module.exports = {
             }, secret, { expiresIn: '1h' });
         user.onlineStatus = true;
         user.save();    
-        const decodedToken = jwt.verify(token, secret);  
+        const decodedToken = jwt.verify(token, secret);
+         statusCode = 200;
          console.log(`Decoded Token ${JSON.stringify(decodedToken)}`);
          console.log(`Decoded Token Expires ${JSON.stringify(decodedToken.exp)}`);
-        res.status(200).json({token: token, user: returnedUser, tokenExpiresIn: decodedToken.exp, userId: user._id.toString()});
+        res.status(200).json({token: token, user: returnedUser, tokenExpiresIn: decodedToken.exp, userId: user._id.toString(), message:'Successfully signed in!', statusCode: statusCode});
     },
 
     async userLogout(req, res, next){
@@ -158,6 +159,7 @@ module.exports = {
                  user.resetTokenExpiration = Date.now() + 3600000;
                  const updatedUser = await user.save();
                  let hostname = req.headers.host;
+                 console.log(`Updated user: ${updatedUser}`);
                  if(updatedUser){
                      
                      transporter.sendMail({
@@ -172,6 +174,8 @@ module.exports = {
                          </div>
                          `
                      })
+
+                     console.log(`Success email sent!`);
  
                      return res.status(200).json({message: "If a user with that account exists you will recieve an email within the hour with password reset instructions."});
                  }

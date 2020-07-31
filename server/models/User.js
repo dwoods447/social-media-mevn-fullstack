@@ -39,6 +39,12 @@ const UserSchema = new Schema({
     isProfileComplete:{
         type: String, 
     },
+    resetToken: {
+        type: String
+    },
+    resetTokenExpiration: {
+        type: Date
+    },
     followers: {
         users: [
             {

@@ -50,7 +50,7 @@
             ></v-checkbox> -->
 
     <v-btn class="mr-4" @click="register">submit</v-btn>
-    <v-btn>clear</v-btn>
+    <v-btn @clear="clearForm">clear</v-btn>
   </v-form>
 </div>
 </template>
@@ -86,6 +86,13 @@
             }
         },
         methods: {
+            clearForm(){
+                this.username = '';
+                this.password = '';
+                this.confirmPassword = '';
+                this.gender = '';
+                this.email = '';
+            },
             validate () {
                 this.$refs.form.validate()
             },
@@ -108,7 +115,18 @@
                 formData.gender  = this.gender
                 const registerResp = await this.$store.dispatch('registerForAccountAction', formData);
                 if(!registerResp){
+                    console.log(`Something went wrong! Please try again.`);
                     this.errorMessage = 'Something went wrong! Please try again.'
+                    return;
+                }
+                if(registerResp.statusCode === 422){
+                    console.log(`${registerResp.message}`);
+                    this.errorMessage = registerResp.message;
+                    return;
+                }
+                 if(registerResp.statusCode === 500){
+                     console.log(`${registerResp.message}`);
+                    this.errorMessage = registerResp.message;
                     return;
                 }
                 this.$router.push({name: 'signin', params: {user: registerResp.user }});
