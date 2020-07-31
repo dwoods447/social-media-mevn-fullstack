@@ -6,6 +6,10 @@ export default {
     followUser(userId){
       return Api.post('/users/follow/user', userId)
     },
+
+    unfollowUser(userId){
+      return Api.post('/users/unfollow/user', userId)
+    },
     loadUserProfile(user){
       console.log(`Userid re've in service ${JSON.stringify(user)}`);
       console.log(`Userid re've in service ${user.userId}`);

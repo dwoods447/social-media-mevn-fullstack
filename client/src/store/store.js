@@ -163,6 +163,34 @@ const store = new Vuex.Store({
       return registerResp;
     },
 
+     async resetActionPasswordAction(context, email){
+       console.log(`Reseting password in store.`)
+      context.dispatch('setAuthHeaderTokenAction', context.state.token);
+        const passWordResetResp = await Auth.resetPassword(email);
+        if(!passWordResetResp){
+          return; 
+        }
+
+        if(passWordResetResp.data.message == 'No user account with that email exists.'){
+          return 'No user account with that email exists.';
+        }
+
+        if(passWordResetResp.data.message == 'If a user with that account exists you will recieve an email within the hour with password reset instructions.'){
+          return 'Password reset successfully!'
+        }
+
+        return;
+        
+    },
+
+    async updatePasswordAction(context, password){
+      context.dispatch('setAuthHeaderTokenAction', context.state.token);
+      const updatePasswordResp = (await Auth.updatePassword(password)).data;
+      if(!updatePasswordResp){
+        return;
+      }
+    },
+
 
     async loadUsersFollowersAction(context, userID){
       context.dispatch('setAuthHeaderTokenAction', context.state.token);
@@ -216,6 +244,16 @@ const store = new Vuex.Store({
     async followUserAction(context, usertoFollowId){
       context.dispatch('setAuthHeaderTokenAction', context.state.token);
       const followResponse = await UserService.followUser(usertoFollowId);
+      if(!followResponse){
+        return;
+      }
+      return 'You are now following this user';
+    },
+
+
+    async unfollowUserAction(context, usertoUnFollowId){
+      context.dispatch('setAuthHeaderTokenAction', context.state.token);
+      const followResponse = await UserService.unfollowUser(usertoUnFollowId);
       if(!followResponse){
         return;
       }

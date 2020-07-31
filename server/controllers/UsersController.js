@@ -160,6 +160,20 @@ module.exports = {
       },
 
       async unFollowUser(req, res, next){
-        return res.status(200).json({message: 'User followed!!'});
+        const currentUser = await User.findById(req.userId).populate('following')
+        .populate('followers');
+       
+        if(!currentUser){
+            return res.status(401).json({message: 'Unauthorized you are not logged in!'});
+         }
+         const { userId } = req.body;
+         const otherUser = await User.findOne({_id:userId});
+         console.log(`Users: ${JSON.stringify(otherUser)} and ${userId}`);
+         // Add the current user to the other user's followers list
+         const currentUserAddedToUsersFollowerList = await otherUser.removeFollower(currentUser);
+         const usersFollowed  = [...currentUser.following.users];
+         const usersNotFollowed = await User.find({_id: {$nin: usersFollowed}})
+         io.getIO().emit('new-people-list', {action: 'list', lists: usersNotFollowed});
+        return res.status(200).json({message: 'User unfollowed!!'});
       }
 }

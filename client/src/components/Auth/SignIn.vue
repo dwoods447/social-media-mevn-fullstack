@@ -21,7 +21,7 @@
                 <div style="padding: 1em;" v-if="invalidPassword"><strong><span style="color: red;">Incorrect Username and/or Password</span></strong></div>
                  <div style="padding: 1em;" v-if="missingCredentials"><strong><span style="color: red;">Please enter a Username and Password</span></strong></div>
                 <v-spacer></v-spacer>
-                
+                <a @click="forgotPassword" href="javascript:void(0);">Forgot password</a>
               </v-card-actions>
             </v-card>
           </v-flex>
@@ -50,7 +50,9 @@ export default {
     }
   },
   methods: {
-  
+    forgotPassword(){
+      this.$router.push({name: 'forgotpassword'});
+    },
     clearInvalid(){
         this.invalidPassword = false;
     },

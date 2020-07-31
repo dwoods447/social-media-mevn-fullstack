@@ -131,6 +131,33 @@ UserSchema.methods.addToFollower = function(user){
     return this.save();
 }
 
+
+
+
+UserSchema.methods.removeFollower = function(user){
+    const followerIndex = this.followers.users.findIndex(follower => {
+        return user._id.toString() === follower._id.toString();
+    });
+
+    const updatedFollowers = [...this.followers.users];
+    if(followerIndex === -1){
+        // User is not in followers list do nothing
+       return false;
+   }
+
+    if(followerIndex >= 0){
+         // User is in follower list remove them
+         updatedFollowers.splice(followerIndex, 1)
+    }
+
+    const newFollowers = {
+        users:  updatedFollowers
+    }
+    this.followers  =  newFollowers;
+    return this.save();
+}
+
+
 UserSchema.methods.addToFollowing = function(user){
     const followerIndex = this.following.users.findIndex(follower => {
         return user._id.toString() === follower._id.toString();

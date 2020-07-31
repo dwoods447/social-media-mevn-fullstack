@@ -1,6 +1,6 @@
 <template>
     <div v-if="user">
-        <v-card style="margin: 50px auto; width: 45%; padding: 1em;">
+        <v-card style="margin: 50px auto; width: 60%; padding: 1em;">
              <h2>{{ user.username }}'s Profile</h2> 
              <v-row no-gutters style="border-bottom: 2px solid #ccc;">
                  <v-col cols="9"
@@ -35,8 +35,10 @@
                  </v-col>
                   <v-col cols="3"  justify="center" no-gutters>
                   <div class="flex-container-two">
-                    <FollowButton :userID="user"></FollowButton>
-                    </div>
+                    <FollowButton :userID="user" v-if="followUser"></FollowButton>
+                    <v-spacer></v-spacer>
+                    <UnFollowButton :userID="user" v-if="unfollowUser"></UnFollowButton>
+                </div>
                  </v-col>
              </v-row>
           
@@ -132,11 +134,13 @@
 
 <script>
 import FollowButton from '@/components/Profile/FollowButton'
+import UnFollowButton from '@/components/Profile/UnFollowButton'
 import PostList from '@/components/Posts/PostList'
 import api from '../../services/API'
     export default {
         components: {
           FollowButton,
+          UnFollowButton,
           PostList
         },
         created(){
@@ -144,6 +148,7 @@ import api from '../../services/API'
             this.loadFollowing();
             this.loadFollwers();
             this.loadPosts();
+            this.checkFollower();
             this.baseURL = api.defaults.baseURL;
         },
         data(){
@@ -158,9 +163,44 @@ import api from '../../services/API'
                  followers: [],
                  following: [],
                  posts: [],
+                
+                 followUser: false,
+                 unfollowUser: false,
+
             }
         },
         methods: {
+            checkFollower(){
+                const userID = {userId: this.$route.query.userId};
+                const followerIndex = this.$store.getters.getUser.following.users.findIndex(user  => {
+                    return user.userId.toString() === userID.userId;
+                })
+
+                if(this.$route.query.userId.toString() !== this.$store.getters.getUser._id){
+                    if(followerIndex === -1){
+                        //You are not following this user
+                        // Show follow button
+                        this.followUser = true;
+                        this.unfollowUser = false;
+                        console.log(`You are not following this user`);
+                        
+                    }
+
+                    if(followerIndex >= 0){
+                        //You are following this user
+                        //Show unfollow button
+                        this.followUser = false;
+                        this.unfollowUser = true;
+                        console.log(`You are following this user`);
+                    }
+                } else {
+                     this.followUser = false;
+                     this.unfollowUser = false;
+                }
+              
+
+
+            },
             async loadPerson(){
                 const userID = {userId: this.$route.query.userId};
                 const user  =  await this.$store.dispatch('loadUserProfileAction', userID);

@@ -7,6 +7,9 @@ import NewsFeed from '../components/NewsFeed/NewsFeed'
 import FindPeopleList from '@/components/Users/FindPeopleList'
 import Register from '../components/Register'
 import EditProfileInComplete from '../components/Profile/EditProfileInComplete'
+import PasswordReset from '../components/Auth/PasswordReset'
+import UpdatePassword from '@/components/Auth/UpdatePassword'
+
 //import store from '../store/store'
 
 const routes = [
@@ -27,6 +30,18 @@ const routes = [
         path: '/signin', 
         name: 'signin',
         component: SignIn, 
+        
+    },
+    {
+        path: '/updatepassworduser/user/:userId/token/:token', 
+        name: 'update-password',
+        component: UpdatePassword, 
+        
+    },
+    {
+        path: '/forgot-password', 
+        name: 'forgotpassword',
+        component: PasswordReset, 
         
     },
     {

@@ -140,6 +140,7 @@ module.exports = {
     async resetPassword(req, res, next){
         const { email } = req.body;
         console.log(`Searching for user.....`);
+        console.log(`User: ${email}`);
         try {
               const user = await User.findOne({email: email}, {password: 0});
                  if(!user){
@@ -197,9 +198,9 @@ module.exports = {
             return res.status(422).json({message: "We could not find the user in the system."});
         }
 
-        const hashedPassword = bcrypt.hashSync(password, 12);
-
-        user.password = hashedPassword;
+       // const hashedPassword = bcrypt.hashSync(password, 12);
+       // user.password = hashedPassword;
+        user.password = password;
         const savedPassword = await user.save();
         return res.status(200).json({message: "Password updated successfully!"});
     }   
