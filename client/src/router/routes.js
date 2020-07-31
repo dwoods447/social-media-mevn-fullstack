@@ -33,7 +33,7 @@ const routes = [
         
     },
     {
-        path: '/updatepassworduser/user/:userId/token/:token', 
+        path: '/updatepassword/user/:userId/token/:token', 
         name: 'update-password',
         component: UpdatePassword, 
         

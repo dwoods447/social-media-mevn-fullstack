@@ -8,9 +8,9 @@ const jwt = require('jsonwebtoken');
 const secret = config.authentication.jwtSecret;
 
 const transporter = nodemailer.createTransport(sendGridTransport({
-auth: {
-    api_key: config.node_mailer_key
-}
+    auth: {
+        api_key: config.node_mailer_key
+    }
 }));
 
 
@@ -74,7 +74,7 @@ module.exports = {
         console.log('Sent Mail');
         transporter.sendMail({
             to: email,
-            from: 'InTheMixSocialApp',
+            from: 'dwoods447@gmail.com',
             subject: 'Welcome to InTheMixSocialApp',
             html: `
             <h1>Welcome, ${newUser.username} to InTheMixSocialApp</h1>
@@ -158,14 +158,15 @@ module.exports = {
                  user.resetToken = token;
                  user.resetTokenExpiration = Date.now() + 3600000;
                  const updatedUser = await user.save();
-                 let hostname = req.headers.host;
+                 let hostname = req.headers.origin;
                  console.log(`Updated user: ${updatedUser}`);
-                 if(updatedUser){
+                 console.log(`Hostname is ${hostname}`);
+                 if(updatedUser.resetToken){
                      
                      transporter.sendMail({
                          to: user.email,
-                         from: 'MySocialApp',
-                         subject: 'Password Reset for MySocialApp',
+                         from: 'dwoods447@gmail.com',
+                         subject: 'Password Reset for InTheMix',
                          html: `
                          <h1></h1>
                          <div>
@@ -197,7 +198,9 @@ module.exports = {
      
     async updatePassword(req, res, next){
         const { userId, token , password } = req.body;
-        const  user = User.findOne({_id: userId}, {password: 0});
+        const  user = await User.findOne({_id: userId}, {password: 0});
+        console.log(`UserId re 'vd on server ${userId}`)
+        console.log(`User ${JSON.stringify(user)}`)
         if(!user){
             return res.status(422).json({message: "We could not find the user in the system."});
         }

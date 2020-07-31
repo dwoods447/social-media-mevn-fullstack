@@ -31,6 +31,7 @@ export default {
             console.log('Resetting password....');
              this.message = '';
             const passwordReset = (await this.$store.dispatch('resetActionPasswordAction', {email: this.email})).data;
+            console.log(`Password Reset Resp: ${passwordReset}`);
             if(!passwordReset){
                 this.message = "An error occured while trying to reset the password please try again";
             }

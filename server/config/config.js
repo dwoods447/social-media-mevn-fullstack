@@ -5,7 +5,7 @@ const secret = '345gf6HGE45Y6FDG45G7868JKTJ567UWREFEDF4E32QFDEDSCSDCEW3332E4RDCV
 module.exports = {
     port: process.env.PORT || 3535,
     host: process.env.HOST || 'localhost',
-    node_mailer_key: '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',
+    node_mailer_key: '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',
     authentication :{
         jwtSecret: secret
     },

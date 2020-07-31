@@ -14,7 +14,7 @@ export default {
     return Api.post('/auth/password/reset', email);
   },
   updatePassword(data){
-    return Api.post(`/auth/update/password`, data);
+    return Api.post(`/auth/password/update`, data);
   }
   
 }
