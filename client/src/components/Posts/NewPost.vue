@@ -21,7 +21,7 @@
                <v-row>
                     <v-col lg="12" v-if="imgPreview">
                             <div style="max-width: 100%; height: auto;" >
-                                <img :src="imgPreview" alt="" style="width: 100%; height auto;"/>
+                                <img :src="imgPreview" alt="" ref="file" style="width: 100%; height auto;"/>
                             </div>
                             <a @click="removeSelectedFile" href="javascript:void(0);">
                                 <span  v-if="imgPreview">X</span>
@@ -113,7 +113,8 @@
              removeSelectedFile(){
                 this.selectedFile = null;
                 this.$refs.file.value = null;
-                 this.previewSrc = '';
+                this.$refs.image.value = null;
+                this.previewSrc = null;
             },
         },
 
