@@ -21,7 +21,7 @@
     "js-cookie": "^2.2.1",
     "material-design-icons": "^3.0.1",
     "material-design-icons-iconfont": "^5.0.1",
-    "moment": "^2.26.0",
+    "moment": "^2.29.2",
     "sass": "^1.19.0",
     "sass-loader": "^8.0.0",
     "socket.io-client": "^2.3.0",
